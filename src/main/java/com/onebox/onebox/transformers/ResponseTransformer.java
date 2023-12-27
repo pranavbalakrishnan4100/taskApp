@@ -11,9 +11,13 @@ import org.springframework.http.ResponseEntity;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.onebox.constants.ErrorMessageConstants;
 
 public class ResponseTransformer {
+	
+	public static final String EXTRA_PARAM_FOUND="extra_param_found";
+	public static final String SUCCESS="success";
+	public static final String FAILURE="failure";
+
 	
 	public static ResponseEntity<Object> transformToAPIResponse(List resultList, JSONObject listCriteria, HttpStatus httpStatus) {
 		return transformToAPIResponse(resultList, listCriteria, httpStatus, null);
@@ -44,7 +48,7 @@ public class ResponseTransformer {
         JSONObject statusJSON=new JSONObject();
        
         statusJSON.put("code", httpStatus.value());
-        statusJSON.put("description", httpStatus.is2xxSuccessful()?ErrorMessageConstants.SUCCESS: ex==null?ErrorMessageConstants.FAILURE:ex.getMessage());
+        statusJSON.put("description", httpStatus.is2xxSuccessful()?SUCCESS: ex==null?FAILURE:ex.getMessage());
         
 		JSONObject resultJSON=new JSONObject();
 		resultJSON.put("status", statusJSON);
