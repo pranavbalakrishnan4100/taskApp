@@ -9,13 +9,13 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.stereotype.Component;
 
-import com.onebox.entityobjects.Task;
+import com.onebox.entityobjects.BaseEntity;
 
 @Mapper(componentModel="Spring")
-public interface ObjectEntityMapper<T> {
+public interface ObjectEntityMapper {
 	
 	ObjectEntityMapper INSTANCE = Mappers.getMapper(ObjectEntityMapper.class);
 
-	void updateEntityFromDto(T taskDto, @MappingTarget T task);
+	void updateEntityFromDto(BaseEntity taskDto, @MappingTarget BaseEntity task);
 
 }

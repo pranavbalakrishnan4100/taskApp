@@ -11,7 +11,7 @@ import java.lang.annotation.ElementType;
 
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = (CustomValidator.class))
+@Constraint(validatedBy = CustomValidator.class)
 public @interface CustomValidation {
 	String regex() default "";
 	String type() default "";

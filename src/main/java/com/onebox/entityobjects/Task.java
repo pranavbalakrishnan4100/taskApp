@@ -9,7 +9,7 @@ import jakarta.persistence.Table;
 
 @Entity(name="task")
 @Table(name="task")
-public class Task{
+public class Task extends BaseEntity{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="task_id")
