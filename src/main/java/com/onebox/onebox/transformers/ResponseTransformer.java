@@ -14,24 +14,22 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ResponseTransformer {
 	
+	//TODO: Return response code based on the kind of exception thrown
+	
 	public static final String EXTRA_PARAM_FOUND="extra_param_found";
 	public static final String SUCCESS="success";
 	public static final String FAILURE="failure";
 
 	
 	public static ResponseEntity<Object> transformToAPIResponse(List resultList, JSONObject listCriteria, HttpStatus httpStatus) {
-		return transformToAPIResponse(resultList, listCriteria, httpStatus, null);
+		return transformToAPIResponse(resultList, httpStatus, null);
 	}
 	
 	public static ResponseEntity<Object> transformToAPIResponse(List resultList, HttpStatus httpStatus) {
-		return transformToAPIResponse(resultList, null, httpStatus, null);
+		return transformToAPIResponse(resultList,  httpStatus, null);
 	}
-	
+		
 	public static ResponseEntity<Object> transformToAPIResponse(List resultList, HttpStatus httpStatus, Exception ex) {
-		return transformToAPIResponse(resultList, null, httpStatus, ex);
-	}
-	
-	public static ResponseEntity<Object> transformToAPIResponse(List resultList, JSONObject listCriteria, HttpStatus httpStatus, Exception ex) {
 		JSONArray resultJSONArray=new JSONArray();
 		
         for (Object a1 : resultList) {

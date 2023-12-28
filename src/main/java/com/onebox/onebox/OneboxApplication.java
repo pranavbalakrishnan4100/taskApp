@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 @SpringBootApplication
 @EntityScan("com.onebox.entityobjects") 
-@ComponentScan
+@ComponentScan("com.onebox.onebox")
 public class OneboxApplication {
 
 	public static void main(String[] args) {
