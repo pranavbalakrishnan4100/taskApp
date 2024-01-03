@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.onebox.onebox.ListSpec;
 import com.onebox.onebox.services.BaseService;
@@ -20,7 +22,7 @@ public abstract class BaseController <T, ID extends Serializable>{
 	public BaseService<T, ID> service;
 	
 	@GetMapping
-	public ResponseEntity<T> getAll(@RequestParam String listSpecs){
+	public ResponseEntity<T> getAll(@RequestParam(required=false) String listSpecs){
 		return service.getAll(listSpecs);
 	}
 	

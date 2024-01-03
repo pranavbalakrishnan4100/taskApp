@@ -14,6 +14,7 @@ com/onebox/onebox/services/ObjectEntityMapper.class
 com/onebox/onebox/services/BaseService.class
 com/onebox/onebox/transformers/ResponseTransformer.class
 com/onebox/onebox/controllers/BaseController.class
+com/onebox/onebox/SecurityConfig.class
 com/onebox/entityobjects/BaseEntity.class
 com/onebox/onebox/specifications/SearchSpecifications.class
 com/onebox/onebox/validator/DefaultValidator.class

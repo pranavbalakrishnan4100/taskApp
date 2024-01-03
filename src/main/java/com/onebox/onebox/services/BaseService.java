@@ -34,7 +34,11 @@ public abstract class BaseService<T, ID extends Serializable>{
 		List<T> resultList = new ArrayList<T>();
 		
 		try {
-			listSpec = new ListSpec(new JSONObject(listSpecs));
+			if(listSpecs==null) {
+				listSpec=new ListSpec();
+			}else {
+				listSpec = new ListSpec(new JSONObject(listSpecs));
+			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 			return (ResponseEntity<T>) ResponseTransformer.transformToAPIResponse(resultList, HttpStatus.BAD_REQUEST);

@@ -12,8 +12,8 @@ public class TaskService extends BaseService{
 	@Autowired
 	public TaskService(TaskRepository taskRepository) {
         this.repository = taskRepository;
-        ObjectEntityMapper mapper = ObjectEntityMapper.INSTANCE;
-        this.mapper=mapper;
+//        ObjectEntityMapper mapper = ObjectEntityMapper.INSTANCE;
+//        this.mapper=mapper;
     }
 
 }

@@ -3,6 +3,7 @@
 /home/local/ZOHOCORP/pranav-pt5073/eclipse-workspace/taskapp/src/main/java/com/onebox/entityobjects/BaseEntity.java
 /home/local/ZOHOCORP/pranav-pt5073/eclipse-workspace/taskapp/src/main/java/com/onebox/onebox/transformers/ResponseTransformer.java
 /home/local/ZOHOCORP/pranav-pt5073/eclipse-workspace/taskapp/src/main/java/com/onebox/onebox/validator/CustomValidator.java
+/home/local/ZOHOCORP/pranav-pt5073/eclipse-workspace/taskapp/src/main/java/com/onebox/onebox/SecurityConfig.java
 /home/local/ZOHOCORP/pranav-pt5073/eclipse-workspace/taskapp/src/main/java/com/onebox/onebox/controllers/BaseController.java
 /home/local/ZOHOCORP/pranav-pt5073/eclipse-workspace/taskapp/src/main/java/com/onebox/onebox/validator/CustomValidation.java
 /home/local/ZOHOCORP/pranav-pt5073/eclipse-workspace/taskapp/src/main/java/com/onebox/entityobjects/Task.java
