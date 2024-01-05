@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.onebox.onebox.APIRequest;
 import com.onebox.onebox.ListSpec;
 import com.onebox.onebox.repositories.BaseRepository;
 import com.onebox.onebox.specifications.SearchSpecifications;
@@ -26,18 +27,33 @@ public abstract class BaseService<T, ID extends Serializable>{
 	
 	protected BaseRepository<T, ID> repository;
 	protected BaseRepository<T, ID> parentRepository;
-	
+	protected BaseRepository<T, ID> childRepository;
+ 	
 	public ObjectEntityMapper mapper;
 	
-	public ResponseEntity<T> getAll(String listSpecs){
-		ListSpec listSpec = null;
+	public ResponseEntity<T> handleCRUD(APIRequest APIReq) {
+		String operation=APIReq.operation;
+		switch(operation) {
+		case "GETALL":
+			return getAll(APIReq.listSpec);
+		case "GET":
+			return get((ID) APIReq.id);
+		case "POST":
+			return post((T) APIReq.entityObj);
+		case "PUT":
+			return put((ID)APIReq.id, (T)APIReq.entityObj);
+		case "DELETE":
+			return delete((ID)APIReq.id);
+		}
+		return null;
+	}
+	
+	public ResponseEntity<T> getAll(ListSpec listSpecs){
 		List<T> resultList = new ArrayList<T>();
 		
 		try {
 			if(listSpecs==null) {
-				listSpec=new ListSpec();
-			}else {
-				listSpec = new ListSpec(new JSONObject(listSpecs));
+				listSpecs=new ListSpec();
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -48,26 +64,26 @@ public abstract class BaseService<T, ID extends Serializable>{
 		}
 		
 		
-    	Specification spec = SearchSpecifications.specification(listSpec.searchSpecs);
+    	Specification spec = SearchSpecifications.specification(listSpecs.searchSpecs);
 		
-		if(listSpec.parentId!=null && parentRepository.existsById(listSpec.parentId)) {
-			T parentObj=parentRepository.findById(listSpec.parentId).get();
-			spec = spec.and(SearchSpecifications.withAdditionalCondition(listSpec.parentField, parentObj));
+		if(listSpecs.parentId!=null && parentRepository.existsById(listSpecs.parentId)) {
+			T parentObj=parentRepository.findById(listSpecs.parentId).get();
+			spec = spec.and(SearchSpecifications.withAdditionalCondition(listSpecs.parentField, parentObj));
 		}
 		
 		Sort sort=null;
 		Pageable pageable;
-		if(listSpec.sortOrder!=null) {
-			if( listSpec.sortOrder.equals("ASC")) {
-				sort = Sort.by(Sort.Order.asc(listSpec.sortField));
+		if(listSpecs.sortOrder!=null) {
+			if( listSpecs.sortOrder.equals("ASC")) {
+				sort = Sort.by(Sort.Order.asc(listSpecs.sortField));
 			}else {
-				sort = Sort.by(Sort.Order.desc(listSpec.sortField));
+				sort = Sort.by(Sort.Order.desc(listSpecs.sortField));
 			}
-			pageable = PageRequest.of(listSpec.startIndex, listSpec.rowCount, sort); 
+			pageable = PageRequest.of(listSpecs.startIndex, listSpecs.rowCount, sort); 
 		}
 
 		
-		pageable = PageRequest.of(listSpec.startIndex, listSpec.rowCount); 
+		pageable = PageRequest.of(listSpecs.startIndex, listSpecs.rowCount); 
 		
 		resultList = repository.findAll(spec, pageable).toList();
 		
@@ -142,6 +158,5 @@ public abstract class BaseService<T, ID extends Serializable>{
 			return (ResponseEntity<T>) ResponseTransformer.transformToAPIResponse(resultList, HttpStatus.BAD_REQUEST);
 		}
 	}
-
 
 }

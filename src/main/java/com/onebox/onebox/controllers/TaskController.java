@@ -17,4 +17,5 @@ public class TaskController extends BaseController<Task, Long>{
     public TaskController(TaskService taskService) {
         this.service = taskService;
     }
+    
 }

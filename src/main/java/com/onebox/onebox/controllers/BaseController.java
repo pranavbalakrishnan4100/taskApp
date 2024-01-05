@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.onebox.onebox.APIRequest;
 import com.onebox.onebox.ListSpec;
 import com.onebox.onebox.services.BaseService;
 
@@ -23,31 +24,50 @@ public abstract class BaseController <T, ID extends Serializable>{
 	
 	@GetMapping
 	public ResponseEntity<T> getAll(@RequestParam(required=false) String listSpecs){
-		return service.getAll(listSpecs);
+		ListSpec listSpec=new ListSpec();
+		
+		if(listSpecs!=null){
+			try {
+				listSpec=new ListSpec(new JSONObject(listSpecs));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return service.handleCRUD(new APIRequest("GETALL", null, listSpec, null));
+		//return service.getAll(listSpecs);
 	}
 	
 	@GetMapping (path="/{id}")
 	public ResponseEntity<T> get(@PathVariable ID id) {
-		return service.get(id);
+		return service.handleCRUD(new APIRequest<T>("GET", (Long) id, null, null));
+		//return service.get(id);
 	}
 	
 	@PostMapping
 	public ResponseEntity<T> post(@RequestBody T entity) {
-		return service.post(entity);
+		return service.handleCRUD(new APIRequest<T>("POST", null, null, entity));
+		//return service.post(entity);
 	}
 	
 	@DeleteMapping (path="/{id}")
 	public ResponseEntity<T> delete(@PathVariable ID id) {
-		return service.delete(id);
+		return service.handleCRUD(new APIRequest<T>("DELETE", (Long) id, null, null));
+		//return service.delete(id);
 	}
 	
 	@DeleteMapping
 	public ResponseEntity<T> delete(@RequestParam String listSpecs) {
-		return service.delete(listSpecs);
+		try {
+			return service.handleCRUD(new APIRequest<T>("DELETE", null, new ListSpec(new JSONObject(listSpecs)), null));
+		} catch (Exception e) {
+			return null;
+		}
+		//return service.delete(listSpecs);
 	}
 	
 	@PutMapping (path="/{id}")
 	public ResponseEntity<T> update(@PathVariable ID id, @RequestBody T entity) {
-		return service.put(id, entity);
+		return service.handleCRUD(new APIRequest<T>("PUT", (Long) id, null, entity));
+		//return service.put(id, entity);
 	}
 }
